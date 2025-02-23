@@ -27,5 +27,3 @@ EXPOSE $PORT
 
 CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080", "--workers", "2", "--timeout", "120"]
 
-# Flask 앱 실행 시 $PORT 사용
-CMD ["python", "app.py"]
