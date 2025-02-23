@@ -8,7 +8,7 @@ import firebase_admin
 from firebase_admin import credentials, storage
 
 # 서비스 계정 키 JSON 파일의 경로를 지정합니다.
-cred = credentials.Certificate("path/to/serviceAccountKey.json")
+cred = credentials.Certificate("namepill-22uagc-firebase-adminsdk-fbsvc-9fd2d1687f.json")
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'namepill-22uagc.appspot.com'
 })
@@ -20,18 +20,6 @@ CLIENT = InferenceHTTPClient(
     api_key=os.getenv("ROBOFLOW_API_KEY")
 )
 
-# Firebase 초기화 (환경 변수 사용)
-if not firebase_admin._apps:
-    firebase_creds = os.getenv("FIREBASE_CREDENTIALS")
-    if not firebase_creds:
-        raise ValueError("FIREBASE_CREDENTIALS environment variable is required")
-    cred_json = base64.b64decode(firebase_creds).decode('utf-8')
-    cred_dict = json.loads(cred_json)
-    cred = credentials.Certificate(cred_dict)
-    firebase_admin.initialize_app(cred, {
-        'storageBucket': 'namepill-22uagc.appspot.com'
-    })
-bucket = storage.bucket()
 
 CONFIDENCE_THRESHOLD = 0.3
 
