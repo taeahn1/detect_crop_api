@@ -7,6 +7,12 @@ RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     && rm -rf /var/lib/apt/lists/*
 
+# Keeps Python from generating .pyc files in the container
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Turns off buffering for easier container logging
+ENV PYTHONUNBUFFERED=1
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -18,6 +24,8 @@ ENV FIREBASE_CREDENTIALS="ewogICJ0eXBlIjogInNlcn--ZpY2VfYWNjb3VudCIsCiAgInByb2pl
 # Cloud Run에서 사용하는 포트 환경 변수 반영
 ENV PORT=8080
 EXPOSE $PORT
+
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080", "--workers", "2", "--timeout", "120"]
 
 # Flask 앱 실행 시 $PORT 사용
 CMD ["python", "app.py"]
