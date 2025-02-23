@@ -1,17 +1,27 @@
+import base64
+import json
 import os
 import cv2
 import numpy as np
-import base64
-import json
 from inference_sdk import InferenceHTTPClient
 import firebase_admin
 from firebase_admin import credentials, storage
 
-# 서비스 계정 키 JSON 파일의 경로를 지정합니다.
-cred = credentials.Certificate("namepill-22uagc-firebase-adminsdk-fbsvc-9fd2d1687f.json")
-firebase_admin.initialize_app(cred, {
-    'storageBucket': 'namepill-22uagc.appspot.com'
-})
+# Firebase 초기화
+if not firebase_admin._apps:
+    firebase_key_path = "namepill-22uagc-firebase-adminsdk-fbsvc-9fd2d1687f.json"
+    if not os.path.exists(firebase_key_path):
+        print(f"Error: Firebase key file not found at {firebase_key_path}")
+        raise FileNotFoundError(f"Firebase key file missing: {firebase_key_path}")
+    try:
+        cred = credentials.Certificate(firebase_key_path)
+        firebase_admin.initialize_app(cred, {
+            'storageBucket': 'namepill-22uagc.appspot.com'
+        })
+        print("Firebase initialized successfully")
+    except Exception as e:
+        print(f"Firebase initialization failed: {e}")
+        raise
 bucket = storage.bucket()
 
 # Roboflow Client 설정
@@ -19,7 +29,6 @@ CLIENT = InferenceHTTPClient(
     api_url="https://detect.roboflow.com",
     api_key=os.getenv("ROBOFLOW_API_KEY")
 )
-
 
 CONFIDENCE_THRESHOLD = 0.3
 
