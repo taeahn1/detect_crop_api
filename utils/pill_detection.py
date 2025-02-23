@@ -9,19 +9,7 @@ from firebase_admin import credentials, storage
 
 # Firebase 초기화
 if not firebase_admin._apps:
-    firebase_key_path = "namepill-22uagc-firebase-adminsdk-fbsvc-9fd2d1687f.json"
-    if not os.path.exists(firebase_key_path):
-        print(f"Error: Firebase key file not found at {firebase_key_path}")
-        raise FileNotFoundError(f"Firebase key file missing: {firebase_key_path}")
-    try:
-        cred = credentials.Certificate(firebase_key_path)
-        firebase_admin.initialize_app(cred, {
-            'storageBucket': 'namepill-22uagc.appspot.com'
-        })
-        print("Firebase initialized successfully")
-    except Exception as e:
-        print(f"Firebase initialization failed: {e}")
-        raise
+    firebase_admin.initialize_app()
 bucket = storage.bucket()
 
 # Roboflow Client 설정
