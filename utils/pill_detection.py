@@ -11,7 +11,8 @@ from firebase_admin import credentials, storage
 if not firebase_admin._apps:
     options = {'storageBucket': 'namepill-22uagc.appspot.com'}
     firebase_admin.initialize_app(options=options)
-bucket = storage.bucket()
+bucket = storage.bucket('namepill-22uagc.appspot.com')
+
 
 # Roboflow Client 설정
 CLIENT = InferenceHTTPClient(
