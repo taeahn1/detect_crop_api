@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY namepill-22uagc-firebase-adminsdk-fbsvc-9fd2d1687f.json .
 COPY . .
 
-
+ENV GOOGLE_APPLICATION_CREDENTIALS=/app/namepill-22uagc-firebase-adminsdk-fbsvc-9fd2d1687f.json
 ENV ROBOFLOW_API_KEY="865VuGn7RK8dUaByjfwa"
 
 # Cloud Run에서 사용하는 포트 환경 변수 반영
