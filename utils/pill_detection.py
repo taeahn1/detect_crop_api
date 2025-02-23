@@ -83,7 +83,7 @@ def detect_pills_and_crop(image_path, user_id):
             cv2.imwrite(temp_path, cropped_image)
 
             # Firebase Storage에 업로드
-            blob_path = f"users/{user_id}/uploads/{original_cropped_filename}"
+            blob_path = f"users/{user_id}/{original_cropped_filename}"
             blob = bucket.blob(blob_path)
             blob.upload_from_filename(temp_path)
             blob.make_public()
