@@ -11,6 +11,7 @@ from firebase_admin import credentials, storage
 if not firebase_admin._apps:
     firebase_admin.initialize_app()
 bucket = storage.bucket()
+cred = credentials.Certificate("namepill-22uagc-firebase-adminsdk-fbsvc-9fd2d1687f.json")
 
 # Roboflow Client 설정
 CLIENT = InferenceHTTPClient(
