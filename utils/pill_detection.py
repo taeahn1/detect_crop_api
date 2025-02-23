@@ -7,6 +7,13 @@ from inference_sdk import InferenceHTTPClient
 import firebase_admin
 from firebase_admin import credentials, storage
 
+# 서비스 계정 키 JSON 파일의 경로를 지정합니다.
+cred = credentials.Certificate("path/to/serviceAccountKey.json")
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'namepill-22uagc.appspot.com'
+})
+bucket = storage.bucket()
+
 # Roboflow Client 설정
 CLIENT = InferenceHTTPClient(
     api_url="https://detect.roboflow.com",
