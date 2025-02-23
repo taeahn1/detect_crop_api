@@ -1,14 +1,8 @@
-from flask import Flask, request, jsonify, url_for
+from flask import Flask, request, jsonify
 import os
 from utils.pill_detection import detect_pills_and_crop
 
 app = Flask(__name__)
-
-# 디렉토리 설정
-UPLOAD_DIR = "static/uploads"
-CROPPED_DIR = "static/cropped"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-os.makedirs(CROPPED_DIR, exist_ok=True)
 
 @app.route('/upload', methods=['POST'])
 def upload_image():
@@ -19,23 +13,26 @@ def upload_image():
     if file.filename == '':
         return jsonify({"error": "No file selected"}), 400
 
-    # 원본 이미지 저장
-    image_path = os.path.join(UPLOAD_DIR, file.filename)
-    file.save(image_path)
+    user_id = request.form.get('user_id')
+    if not user_id:
+        return jsonify({"error": "User ID is required"}), 400
 
-    # 알약 검출 및 크롭
-    cropped_image_paths = detect_pills_and_crop(image_path, CROPPED_DIR)
-    if not cropped_image_paths:
+    temp_path = f"/tmp/{file.filename}"
+    file.save(temp_path)
+
+    cropped_image_urls = detect_pills_and_crop(temp_path, user_id)
+    os.remove(temp_path)
+
+    if not cropped_image_urls:
         return jsonify({"error": "No pills detected"}), 404
 
-    # 다운로드 링크 생성
-    download_links = []
-    for orig_path, black_path in cropped_image_paths:
-        orig_url = url_for('static', filename=os.path.relpath(orig_path, 'static'), _external=True)
-        black_url = url_for('static', filename=os.path.relpath(black_path, 'static'), _external=True)
-        download_links.append({"original": orig_url, "black_background": black_url})
+    download_links = [
+        {"original": orig_url, "black_background": black_url}
+        for orig_url, black_url in cropped_image_urls
+    ]
 
     return jsonify({"download_links": download_links}), 200
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    port = int(os.getenv("PORT", 8080))  # Cloud Run의 $PORT 사용, 기본값 8080
+    app.run(host='0.0.0.0', port=port)
