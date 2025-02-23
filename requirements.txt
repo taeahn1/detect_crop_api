@@ -3,3 +3,4 @@ opencv-python==4.8.1.78
 numpy==1.26.0
 inference-sdk==0.9.0
 firebase-admin==6.2.0
+gunicorn==20.1.0
