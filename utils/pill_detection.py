@@ -43,7 +43,7 @@ def preprocess_image(original_image_path, cropped_filename, bbox, user_id):
     cv2.imwrite(temp_path, masked_image)
     
     # Firebase Storage에 업로드
-    blob_path = f"users/{user_id}/uploads/{cropped_filename.replace('_original', '_black')}"
+    blob_path = f"users/{user_id}/{cropped_filename.replace('_original', '_black')}"
     blob = bucket.blob(blob_path)
     blob.upload_from_filename(temp_path)
     blob.make_public()  # 공개 URL 생성
