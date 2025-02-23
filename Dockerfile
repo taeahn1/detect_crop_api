@@ -17,7 +17,7 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY namepill-22uagc-firebase-adminsdk-fbsvc-9fd2d1687f.json .
+COPY namepill-22uagc-firebase-adminsdk-fbsvc-0a4cc6093e.json .
 COPY . .
 
 ENV GOOGLE_APPLICATION_CREDENTIALS=/app/namepill-22uagc-firebase-adminsdk-fbsvc-0a4cc6093e.json
