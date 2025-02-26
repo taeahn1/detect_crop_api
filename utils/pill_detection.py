@@ -7,7 +7,7 @@ from inference_sdk import InferenceHTTPClient
 import firebase_admin
 from firebase_admin import credentials, storage
 
-cred = credentials.Certificate("namepill-22uagc-firebase-admindsdk-fbsvc-0a4cc6093e.json")
+cred = credentials.Certificate("namepill-22uagc-firebase-adminsdk-fbsvc-0a4cc6093e.json")
 
 # Firebase 초기화
 if not firebase_admin._apps:
