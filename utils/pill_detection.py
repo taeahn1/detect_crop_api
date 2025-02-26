@@ -8,11 +8,7 @@ import firebase_admin
 from firebase_admin import credentials, storage
 
 cred = credentials.Certificate("namepill-22uagc-firebase-adminsdk-fbsvc-0a4cc6093e.json")
-
-# Firebase 초기화
-if not firebase_admin._apps:
-    options = {'storageBucket': 'namepill-22uagc.appspot.com'}
-    firebase_admin.initialize_app(options=options)
+firebase_admin.initialize_app(cred, {'storageBucket': 'namepill-22uagc.appspot.com'})
 bucket = storage.bucket()
 
 
