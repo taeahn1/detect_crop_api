@@ -13,7 +13,7 @@ cred = credentials.Certificate("namepill-22uagc-firebase-admindsdk-fbsvc-0a4cc60
 if not firebase_admin._apps:
     options = {'storageBucket': 'namepill-22uagc.appspot.com'}
     firebase_admin.initialize_app(options=options)
-bucket = storage.bucket('namepill-22uagc.appspot.com')
+bucket = storage.bucket()
 
 
 # Roboflow Client 설정
